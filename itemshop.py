@@ -30,7 +30,7 @@ class Athena:
 
             itemShop = Utility.GET(
                 self,
-                "https://fortnite-api.com/shop/br",
+                "https://fortnite-api.com/v2/shop/br",
                 {"x-api-key": self.apiKey},
                 {"language": self.language},
             )
@@ -84,8 +84,10 @@ class Athena:
         """
 
         try:
-            featured = itemShop["featured"]
-            daily = itemShop["daily"]
+            specialFeatured = itemShop["specialFeatured"]["entries"]
+            specialDaily = itemShop["specialDaily"]["entries"]
+            featured = itemShop["featured"]["entries"]
+            daily = itemShop["daily"]["entries"]
 
             # Ensure both Featured and Daily have at least 1 item
             if (len(featured) <= 0) or (len(daily) <= 0):
@@ -98,7 +100,9 @@ class Athena:
         # Determine the max amount of rows required for the current
         # Item Shop when there are 3 columns for both Featured and Daily.
         # This allows us to determine the image height.
-        rows = max(ceil(len(featured) / 3), ceil(len(daily) / 3))
+        
+        rows = max(ceil((len(featured)+len(specialFeatured)) / 3), ceil((len(daily)+len(specialDaily)) / 3))
+        
         shopImage = Image.new("RGB", (1920, ((545 * rows) + 340)))
 
         try:
@@ -139,7 +143,22 @@ class Athena:
 
         # Track grid position
         i = 0
+        
+        for item in specialFeatured:
+            card = Athena.GenerateCard(self, item)
 
+            if card is not None:
+                shopImage.paste(
+                    card,
+                    (
+                        (20 + ((i % 3) * (card.width + 5))),
+                        (315 + ((i // 3) * (card.height + 5))),
+                    ),
+                    card,
+                )
+
+                i += 1
+                
         for item in featured:
             card = Athena.GenerateCard(self, item)
 
@@ -157,7 +176,22 @@ class Athena:
 
         # Reset grid position
         i = 0
+        
+        for item in specialDaily:
+            card = Athena.GenerateCard(self, item)
 
+            if card is not None:
+                shopImage.paste(
+                    card,
+                    (
+                        (990 + ((i % 3) * (card.width + 5))),
+                        (315 + ((i // 3) * (card.height + 5))),
+                    ),
+                    card,
+                )
+
+                i += 1
+                
         for item in daily:
             card = Athena.GenerateCard(self, item)
 
@@ -193,6 +227,9 @@ class Athena:
                 icon = item["items"][0]["images"]["featured"]["url"]
             else:
                 icon = item["items"][0]["images"]["icon"]["url"]
+            if item["bundle"] != None:
+                name = item["bundle"]["name"]
+                icon = item["bundle"]["image"]
         except Exception as e:
             log.error(f"Failed to parse item {name}, {e}")
 
