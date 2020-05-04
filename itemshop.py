@@ -293,8 +293,8 @@ class Athena:
             # Start at position 1 in items array
             for extra in item["items"][1:]:
                 try:
-                    extraRarity = extra["rarity"]
-                    extraIcon = extra["images"]["smallIcon"]["url"]
+                    extraRarity = extra["rarity"]["value"]
+                    extraIcon = extra["images"]["smallIcon"]
                 except Exception as e:
                     log.error(f"Failed to parse item {name}, {e}")
 
