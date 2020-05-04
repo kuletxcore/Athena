@@ -220,13 +220,13 @@ class Athena:
 
         try:
             name = item["items"][0]["name"]
-            rarity = item["items"][0]["rarity"]
-            category = item["items"][0]["type"]
+            rarity = item["items"][0]["rarity"]["value"]
+            category = item["items"][0]["type"]["value"]
             price = item["finalPrice"]
             if isinstance(item["items"][0]["images"]["featured"], dict):
-                icon = item["items"][0]["images"]["featured"]["url"]
+                icon = item["items"][0]["images"]["featured"]
             else:
-                icon = item["items"][0]["images"]["icon"]["url"]
+                icon = item["items"][0]["images"]["icon"]
             if item["bundle"] != None:
                 name = item["bundle"]["name"]
                 icon = item["bundle"]["image"]
