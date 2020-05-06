@@ -83,19 +83,25 @@ class Athena:
         Return True if image sucessfully saved.
         """
 
-        try:
-            specialFeatured = itemShop["specialFeatured"]["entries"]
-            specialDaily = itemShop["specialDaily"]["entries"]
+        if itemShop["featured"] != None:
             featured = itemShop["featured"]["entries"]
+        else:
+            featured = []
+
+        if itemShop["daily"] != None:
             daily = itemShop["daily"]["entries"]
+        else:
+            daily = []
 
-            # Ensure both Featured and Daily have at least 1 item
-            if (len(featured) <= 0) or (len(daily) <= 0):
-                raise Exception(f"Featured: {len(featured)}, Daily: {len(daily)}")
-        except Exception as e:
-            log.critical(f"Failed to parse Item Shop Featured and Daily items, {e}")
+        if itemShop["specialFeatured"] != None:
+            specialFeatured = itemShop["specialFeatured"]["entries"]
+        else:
+            specialFeatured = []
 
-            return False
+        if itemShop["specialDaily"] != None:
+            specialDaily = itemShop["specialDaily"]["entries"]
+        else:
+            specialDaily = []
 
         # Determine the max amount of rows required for the current
         # Item Shop when there are 3 columns for both Featured and Daily.
