@@ -16,7 +16,7 @@ As seen on [@FNMasterCom](https://twitter.com/FNMasterCom/status/119766612307816
 - [Pillow](https://pillow.readthedocs.io/en/stable/installation.html#basic-installation)
 - [python-twitter](https://github.com/bear/python-twitter#installing)
 
-A [Fortnite-API API Key](https://fortnite-api.com/profile) is required to obtain the Item Shop data, [Twitter API credentials](https://developer.twitter.com/en/apps) are required to Tweet the image.
+A [Fortnite-API API Key](https://fortnite-api.com/profile) isn't required to obtain the Item Shop data, [Twitter API credentials](https://developer.twitter.com/en/apps) are required to Tweet the image.
 
 ## Usage
 
